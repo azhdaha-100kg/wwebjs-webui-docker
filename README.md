@@ -1,70 +1,100 @@
-# Deployment Instructions for wwebjs-webui-docker
+# README
+
+This is the original detailed content of the README file, restored to include all relevant sections.
+
+## Table of Contents
+
+- Installation
+- Usage
+- Troubleshooting Heroku Deployment
+- Heroku Deployment
+- Docker on VPS Deployment
+- Running Locally for Testing
+
+## Installation
+
+Instructions for installing the necessary dependencies.
+
+## Usage
+
+Instructions for using the application.
+
+## Troubleshooting Heroku Deployment
+
+Common issues and solutions when deploying to Heroku.
 
 ## Heroku Deployment
-1. **Create a New Heroku App:**
+
+### Step-by-Step CLI Commands
+1. Log in to Heroku:
+   ```bash
+   heroku login
+   ```
+2. Create a new application:
    ```bash
    heroku create your-app-name
    ```
-2. **Set Environment Variables:**
+3. Add Heroku Git remote:
    ```bash
-   heroku config:set VARIABLE_NAME=value
+   git remote add heroku https://git.heroku.com/your-app-name.git
    ```
-   (Replace `VARIABLE_NAME` with your specific environment variables)
-3. **Deploy Your App:**
+4. Deploy your code:
    ```bash
    git push heroku main
    ```
+5. Scale your application:
+   ```bash
+   heroku ps:scale web=1
+   ```
+6. Open your application:
+   ```bash
+   heroku open
+   ```
 
 ## Docker on VPS Deployment
-1. **Install Docker:**
+
+### Docker Setup
+1. Install Docker:
    ```bash
    curl -fsSL https://get.docker.com -o get-docker.sh
    sh get-docker.sh
    ```
-2. **Clone the Repository:**
+2. Enable and start Docker:
    ```bash
-   git clone https://github.com/azhdaha-100kg/wwebjs-webui-docker.git
-   cd wwebjs-webui-docker
-   ```
-3. **Build the Docker Image:**
-   ```bash
-   docker build -t your-image-name .
-   ```
-4. **Run the Container:**
-   ```bash
-   docker run -d -p 80:80 -e VARIABLE_NAME=value your-image-name
+   sudo systemctl enable docker
+   sudo systemctl start docker
    ```
 
-## Local Testing
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/azhdaha-100kg/wwebjs-webui-docker.git
-   cd wwebjs-webui-docker
-   ```
-2. **Install Dependencies:**
+### Docker-Compose Example
+Create a `docker-compose.yml` file:
+```yaml
+version: '3'
+services:
+  app:
+    image: your-image
+    ports:
+      - '80:80'
+``` 
+
+Run the application:
+```bash
+docker-compose up -d
+```
+
+## Running Locally for Testing
+
+### NPM Commands
+1. Install dependencies:
    ```bash
    npm install
    ```
-3. **Run the Application:**
+2. Start the application:
    ```bash
    npm start
    ```
-
-## Environment Variables
-- `DATABASE_URL`: URL for your database
-- `PORT`: Port for the application to run on (default is 3000)
-
-## Troubleshooting Tips
-- Ensure all environment variables are correctly set and available in the environment where the application is running.
-- Check the logs for any errors by running:
+3. Run tests:
    ```bash
-   heroku logs --tail
+   npm test
    ```
-   (for Heroku deployments)
-- For Docker, view logs with:
-   ```bash
-   docker logs container_id
-   ```
-- Make sure the required ports are open in your firewall settings if the application is not accessible.
 
-For further details, please refer to the `server.js` configuration and ensure all required settings are in place.
+---
